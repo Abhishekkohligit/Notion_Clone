@@ -2,10 +2,9 @@
 import { cn } from "@/lib/utils";
 import { ChevronsLeft } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useRef, ElementRef, useState } from "react";
+import { useRef, ElementRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { MenuIcon } from "lucide-react";
-// import { log } from "console";
 
 export const Navigation = () => {
 	const isMobile = useMediaQuery("(max-width:768px)");
@@ -16,6 +15,21 @@ export const Navigation = () => {
 	const navbarRef = useRef<ElementRef<"div">>(null);
 	const [isResetting, setIsResetting] = useState(false);
 	const [isCollapsed, setIsCollapsed] = useState(isMobile);
+
+	useEffect(() => {
+		if (isMobile) {
+			collapse();
+		} else {
+			resetWidth();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMobile]);
+
+	useEffect(() => {
+		if (isMobile) {
+			collapse();
+		}
+	}, [pathname, isMobile]);
 
 	const handleMouseDown = (
 		event: React.MouseEvent<HTMLDivElement, MouseEvent>
