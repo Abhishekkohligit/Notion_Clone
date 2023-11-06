@@ -1,15 +1,27 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { ChevronsLeft } from "lucide-react";
+import {
+	ChevronsLeft,
+	PlusCircle,
+	MenuIcon,
+	Search,
+	Settings,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useRef, ElementRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { MenuIcon } from "lucide-react";
+
 import { UserItem } from "./user-item";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Item } from "./item";
+import { toast } from "sonner";
 
 export const Navigation = () => {
 	const isMobile = useMediaQuery("(max-width:768px)");
 	const pathname = usePathname();
+	const documents = useQuery(api.documents.get);
+	const create = useMutation(api.documents.create);
 
 	const isResizeRef = useRef(false);
 	const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -95,13 +107,17 @@ export const Navigation = () => {
 		}
 	};
 
-	// console.log(isCollapsed);
-	// console.log(isMobile);
-	console.log(navbarRef, "navbarRef");
-	console.log(sidebarRef, "sidebarref");
+	const handleCreate = () => {
+		const promiseC = create({ title: "Untitled" });
+		toast.promise(promiseC, {
+			loading: "Creating a new note...",
+			success: "new note created!",
+			error: "Failed to create a new note.",
+		});
+	};
 
 	return (
-		<div className="flex relative">
+		<div className="">
 			<aside
 				className={cn(
 					"group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
@@ -121,11 +137,20 @@ export const Navigation = () => {
 					<ChevronsLeft className="h-6 w-6" />
 				</div>
 
-				<div>
+				<div className="w-full">
 					<UserItem />
+					<Item label="Search" icon={Search} isSearch onClick={() => {}} />
+
+					<Item label="Settings" icon={Settings} onClick={() => {}} />
+
+					<Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
 				</div>
 				<div className="mt-4">
-					<p>Documents</p>
+					{/* <p>Documents</p>
+					 */}
+					{documents?.map((document) => (
+						<p key={document._id}>{document.title}</p>
+					))}
 				</div>
 
 				<div
