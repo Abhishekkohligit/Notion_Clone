@@ -15,6 +15,8 @@ import {
 	PopoverContent,
 } from "@/components/ui/popover";
 
+import { useSearch } from "@/hooks/use-search";
+
 import { usePathname } from "next/navigation";
 import { useRef, ElementRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -28,6 +30,7 @@ import { DocumentList } from "./document-list";
 import { TrashBox } from "./trash-box";
 
 export const Navigation = () => {
+	const search =useSearch()
 	const isMobile = useMediaQuery("(max-width:768px)");
 	const pathname = usePathname();
 	// const documents = useQuery(api.documents.get);
@@ -144,12 +147,12 @@ export const Navigation = () => {
 						isMobile && "opacity-100"
 					)}
 				>
-					<ChevronsLeft className="h-6 w-6" />
+					<ChevronsLeft className="h-6 w-6 pl-2" />
 				</div>
 
 				<div className="w-full">
 					<UserItem />
-					<Item label="Search" icon={Search} isSearch onClick={() => {}} />
+					<Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
 
 					<Item label="Settings" icon={Settings} onClick={() => {}} />
 

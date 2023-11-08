@@ -19,7 +19,7 @@ export const UserItem = () => {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<div
-					className="flex items-center text-sm p-3 w-full hover:bg-primary/5"
+					className="flex items-center text-sm p-3 w-full hover:bg-primary/5 mr-4"
 					role="button"
 				>
 					<div className="gap-x-2 flex items-center max-w-[150px]">
@@ -30,7 +30,7 @@ export const UserItem = () => {
 							{user?.fullName}&apos;s J(N)otion{" "}
 						</span>
 					</div>
-					<ChevronsLeftRight className="rotate-90 ml-2 text-muted-foreground h-4 w-4" />
+					<ChevronsLeftRight className="rotate-90 ml-2 text-muted-foreground h-4 w-4 mr-4" />
 				</div>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
