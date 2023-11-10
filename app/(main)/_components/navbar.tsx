@@ -7,6 +7,7 @@ import { MenuIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Title } from "./title";
 import { Banner } from "./banner";
+import { Menu } from "./menu";
 
 interface Navbarprops {
 	isCollapsed: boolean;
@@ -21,10 +22,12 @@ export const Navbar = ({ isCollapsed, onResetWidth }: Navbarprops) => {
 
 	if (document === undefined) {
 		return (
-			<nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center ">
-     <Title.Skeleton />
-
-   </nav>
+			<nav className="bg-background dark:bg-[#1F1F1F] px-3 py-2 w-full flex items-center justify-between">
+				<Title.Skeleton />
+				<div className="flex flex-center gap-x-2">
+					<Menu.Skeleton />
+				</div>
+			</nav>
 		);
 	}
 	if (document === null) {
@@ -44,12 +47,12 @@ export const Navbar = ({ isCollapsed, onResetWidth }: Navbarprops) => {
 
 				<div className="flex items-center justify-between w-full">
 					<Title initialData={document} />
+					<div className="flex items-center gap-x-2">
+						<Menu documentId={document._id} />
+					</div>
 				</div>
 			</nav>
-    {document.isArchived &&(
-     <Banner documentId={document._id} />
-    )} 
-
+			{document.isArchived && <Banner documentId={document._id} />}
 		</>
 	);
 };
