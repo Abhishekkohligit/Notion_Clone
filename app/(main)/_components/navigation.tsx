@@ -18,7 +18,7 @@ import {
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useRef, ElementRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -29,20 +29,24 @@ import { Item } from "./item";
 import { toast } from "sonner";
 import { DocumentList } from "./document-list";
 import { TrashBox } from "./trash-box";
+import { Navbar } from "./navbar";
 
 export const Navigation = () => {
 	const settings = useSettings();
 	const search = useSearch();
 	const isMobile = useMediaQuery("(max-width:768px)");
 	const pathname = usePathname();
-	// const documents = useQuery(api.documents.get);
+
 	const create = useMutation(api.documents.create);
+	const params = useParams();
 
 	const isResizeRef = useRef(false);
 	const sidebarRef = useRef<ElementRef<"aside">>(null);
 	const navbarRef = useRef<ElementRef<"div">>(null);
 	const [isResetting, setIsResetting] = useState(false);
 	const [isCollapsed, setIsCollapsed] = useState(isMobile);
+	// console.log(isCollapsed,'iscollapsed')
+	// console.log(params);
 
 	useEffect(() => {
 		if (isMobile) {
@@ -191,15 +195,19 @@ export const Navigation = () => {
 					isMobile && "left-2 w-full"
 				)}
 			>
-				<nav className="bg-transparent w-full">
-					{isCollapsed && (
-						<MenuIcon
-							onClick={resetWidth}
-							className="h-6 w-6 text-muted-foreground bg-yellow-500"
-							role="button"
-						/>
-					)}
-				</nav>
+				{!!params.documentId ? (
+					<Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+				) : (
+					<nav className="bg-transparent w-full">
+						{isCollapsed && (
+							<MenuIcon
+								onClick={resetWidth}
+								className="h-6 w-6 text-muted-foreground bg-yellow-500"
+								role="button"
+							/>
+						)}
+					</nav>
+				)}
 			</div>
 		</div>
 	);

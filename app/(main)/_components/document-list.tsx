@@ -37,7 +37,7 @@ export const DocumentList = ({
 	});
 
 	const onRedirect = (documentId: string) => {
-		// router.push(`/documents/${documentId}`);
+		router.push(`/documents/${documentId}`);
 	};
 
 	if (documents === undefined) {
@@ -80,12 +80,9 @@ export const DocumentList = ({
 						onExpand={() => onExpand(document._id)}
 						expanded={expanded[document._id]}
 					/>
-     {expanded[document._id] && (
-      <DocumentList
-      parentDocumentId={document._id}
-      level={level +1}
-      />
-     )}
+					{expanded[document._id] && (
+						<DocumentList parentDocumentId={document._id} level={level + 1} />
+					)}
 				</div>
 			))}
 		</>

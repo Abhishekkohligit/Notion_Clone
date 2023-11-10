@@ -39,7 +39,7 @@ const DocumentPage = () => {
 			/>
 			<h2 className="font-semibold">
 				Welcome to <span className="capitalize">{user?.firstName}&apos;s</span>
-				J(N)otion
+				 J(N)otion
 			</h2>
 			<Button onClick={onCreate}>
 				<PlusCircle className="h-4 w-4 mr-2" />
