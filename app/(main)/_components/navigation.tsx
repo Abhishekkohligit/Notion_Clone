@@ -18,7 +18,7 @@ import {
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useRef, ElementRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
@@ -32,6 +32,7 @@ import { TrashBox } from "./trash-box";
 import { Navbar } from "./navbar";
 
 export const Navigation = () => {
+	const router = useRouter();
 	const settings = useSettings();
 	const search = useSearch();
 	const isMobile = useMediaQuery("(max-width:768px)");
@@ -127,7 +128,9 @@ export const Navigation = () => {
 	};
 
 	const handleCreate = () => {
-		const promiseC = create({ title: "Untitled" });
+		const promiseC = create({ title: "Untitled" }).then((documentId) =>
+			router.push(`/documents/${documentId}`)
+		);
 		toast.promise(promiseC, {
 			loading: "Creating a new note...",
 			success: "new note created!",

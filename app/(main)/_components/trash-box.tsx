@@ -42,14 +42,16 @@ export const TrashBox = () => {
 	};
 
 	const onRemove = (documentId: Id<"documents">) => {
-		const promise = remove({ id: documentId });
+		const promise = remove({ id: documentId }).then(() =>
+			router.push("/documents")
+		);
 		toast.promise(promise, {
 			loading: "Deleting  note ...",
 			success: "Note deleted!",
 			error: "Failed to delete note",
 		});
 		if (params.documentId === documentId) {
-			router.push("/documnts");
+			router.push("/documents");
 		}
 	};
 	if (documents === undefined) {
